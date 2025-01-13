@@ -4,6 +4,7 @@ import { UsuarioController } from './usuario.controller';
 @Module({
   imports: [],
   controllers: [UsuarioController],
-  providers: [],
+  providers: []
 })
-export class AppModule {}
+
+export class AppModule {};

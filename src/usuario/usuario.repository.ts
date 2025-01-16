@@ -1,21 +1,20 @@
 import { Injectable } from '@nestjs/common';
 
+const usuarios = [];
 @Injectable()
 export class UsuarioRepository {
-  private usuarios = [];
-
   async salvar(usuario) {
-    this.usuarios.push(usuario);
+    usuarios.push(usuario);
+    return usuarios;
   }
 
   async listar() {
-    return this.usuarios;
+    return usuarios;
   }
 
   async exiteComEmail(email: string) {
-    const possivelUsuario = this.usuarios.find(
-      (usuario) => usuario.email === email,
-    );
+    const userList = usuarios;
+    const possivelUsuario = userList.find((usuario) => usuario.email === email);
     return possivelUsuario !== undefined;
   }
 }

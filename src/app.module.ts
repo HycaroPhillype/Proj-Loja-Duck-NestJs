@@ -4,4 +4,4 @@ import { UsuarioModule } from './usuario/usuario.module';
 @Module({
   imports: [UsuarioModule],
 })
-export class AppModule {};
+export class AppModule {}

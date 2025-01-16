@@ -11,9 +11,8 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 @ValidatorConstraint({ async: true })
 export class EmailUnicoValidator implements ValidatorConstraintInterface {
-
   constructor(private usuarioRepository: UsuarioRepository) {}
-  
+
   async validate(
     value: any,
     validationArguments?: ValidationArguments,
@@ -24,13 +23,13 @@ export class EmailUnicoValidator implements ValidatorConstraintInterface {
 }
 
 export const EmailUnico = (opcoesDeValidacao: ValidationOptions) => {
-  return (objeto: object, propriedade: string) => {
+  return function (objeto: object, propriedade: string) {
     registerDecorator({
       target: objeto.constructor,
       propertyName: propriedade,
       options: opcoesDeValidacao,
       constraints: [],
-      validator: EmailUnico,
+      validator: EmailUnicoValidator,
     });
   };
 };

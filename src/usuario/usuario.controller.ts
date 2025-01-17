@@ -1,12 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { UsuarioRepository } from './usuario.repository';
 import { CriaUsuarioDTO } from './dto/CriaUsuario-dto';
 import { UserEntity } from './usuario.entity';
 import { v4 as uuid } from 'uuid';
 import { ListUserDTO } from './dto/Listausuario.dto';
+import { UpdateUserDTO } from './dto/UpdateUsers.dto';
 @Controller('/usuarios')
 export class UsuarioController {
-  constructor(private usuarioRepository: UsuarioRepository) {}
+  constructor(private userRepository: UsuarioRepository) {}
 
   @Post()
   async createUsers(@Body() dadosUsuario: CriaUsuarioDTO) {
@@ -16,7 +17,7 @@ export class UsuarioController {
     userEntity.nome = dadosUsuario.nome;
     userEntity.id = uuid();
 
-    this.usuarioRepository.salvar(userEntity);
+    this.userRepository.salvar(userEntity);
     return {
       user: new ListUserDTO(userEntity.id, userEntity.nome),
       message: 'Usuário criado com sucesso'}
@@ -24,7 +25,7 @@ export class UsuarioController {
 
   @Get()
   async listUsers() {
-    const usersSaved = await this.usuarioRepository.listar();
+    const usersSaved = await this.userRepository.listar();
     const usersList = usersSaved.map(
       user => new ListUserDTO(
         user.id,
@@ -33,5 +34,14 @@ export class UsuarioController {
     );
 
     return usersList;
+  }
+
+  @Put('/:id')
+  async updaterUser(@Param('id') id: string, @Body() newData: UpdateUserDTO) {
+    const userUpdate = await this.userRepository.update(id, newData);
+    return {
+      user: userUpdate,
+      message: 'Usuário atulizado com exito',
+    }
   }
 }

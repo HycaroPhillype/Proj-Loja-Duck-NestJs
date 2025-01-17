@@ -1,7 +1,5 @@
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { EmailUnico } from '../validacao/email-unico-validator';
-import { UserEntity } from '../usuario.entity';
-
+import { EmailUnico } from '../validacao/email-unico-validator'
 export class CriaUsuarioDTO {
 
 

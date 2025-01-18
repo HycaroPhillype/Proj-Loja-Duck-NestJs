@@ -25,7 +25,7 @@ export class UsuarioController {
 
   @Get()
   async listUsers() {
-    const usersSaved = await this.userRepository.listar();
+    const usersSaved = await this.userRepository.list();
     const usersList = usersSaved.map(
       user => new ListUserDTO(
         user.id,

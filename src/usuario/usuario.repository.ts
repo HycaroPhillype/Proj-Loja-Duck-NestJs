@@ -10,7 +10,7 @@ export class UsuarioRepository {
     return usuario; //AQUI ESTAVA PASSANDO A LISTA TODA QUE ESTA NA LINHA 3, AI MUDEI APENAS PARA O QUE ESTA SENDO PASSADO NA LINHA 6
   }
 
-  async listar() {
+  async list() {
     return users;
   }
 

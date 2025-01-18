@@ -17,15 +17,15 @@ export class UsuarioRepository {
   async exiteComEmail(email: string) {
     const userList = users;
     const possivelUsuario = userList.find((usuario) => {
-      if(usuario.email === email) {
-        return usuario
+      if (usuario.email === email) {
+        return usuario;
       }
-    } );
+    });
     return possivelUsuario !== undefined;
   }
-  private searchId(id: string) {
+  public searchId(id: string) {
     const userList2 = users;
-    const possibleUser = userList2.find(userSave => userSave.id === id);
+    const possibleUser = userList2.find((userSave) => userSave.id === id);
 
     if (!possibleUser) throw new BadRequestException('Usuário não existe');
 
@@ -48,7 +48,6 @@ export class UsuarioRepository {
 
   async remove(id: string) {
     const userExists = this.searchId(id);
-    users = users.filter(userSave => userSave.id !== userExists.id);
-
+    users = users.filter((userSave) => userSave.id !== userExists.id);
   }
 }

@@ -23,6 +23,15 @@ export class UsuarioController {
       message: 'Usuário criado com sucesso'}
   }
 
+  @Get('/:id')
+  async listUserById(@Param('id') id: string) {
+    const user = await this.userRepository.searchId(id);
+    return {
+      user,
+      message: 'Usuário encontrado com sucesso',
+    };
+  }
+
   @Get()
   async listUsers() {
     const usersSaved = await this.userRepository.list();

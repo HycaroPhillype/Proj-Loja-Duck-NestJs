@@ -9,10 +9,11 @@ import {
 } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
-import { AtualizaProdutoDTO } from './dto/atualizaProduto.dto';
-import { CriaProdutoDTO } from './dto/CriaProduto.dto';
+
 import { ProductEntity } from './produto.entity';
 import { ProdutoRepository } from './produto.repository';
+import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
+import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 
 @Controller('produtos')
 export class ProdutoController {
@@ -24,7 +25,6 @@ export class ProdutoController {
 
     produto.id = randomUUID();
     produto.nome = dadosProduto.nome;
-    // produto.usuarioId = dadosProduto.usuarioId;
     produto.valor = dadosProduto.valor;
     produto.quantidade = dadosProduto.quantidade;
     produto.descricao = dadosProduto.descricao;

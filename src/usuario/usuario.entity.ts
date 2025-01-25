@@ -1,6 +1,6 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'users'})
+@Entity({ name: 'usuarios'})
 export class UserEntity {
   splice(index: number, arg1: number) {
     throw new Error('Method not implemented.');

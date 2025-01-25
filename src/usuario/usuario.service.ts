@@ -1,8 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListUserDTO } from './dto/Listausuario.dto';
 import { UserEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
+import { UpdateUserDTO } from './dto/UpdateUsers.dto';
 
 @Injectable()
 export class UserService {
@@ -18,4 +19,27 @@ export class UserService {
     )
     return usersList;
   }
+
+  async listUser(id: string) {
+    const user = await this.userRepository.findOneBy({id});
+    if (!user) {
+      throw new Error('Usuário não encontrado')
+    }
+      return new ListUserDTO(user.id, user.nome)
+
+  }
+
+
+  async createUser(userEntity: UserEntity)  {
+    await this.userRepository.save(userEntity)
+  }
+
+  async updateUser(id: string, userEntity: UpdateUserDTO) {
+    await this.userRepository.update(id, userEntity);
+  }
+
+  async deleteUser(id: string) {
+    await this.userRepository.delete(id);
+  }
+
 }

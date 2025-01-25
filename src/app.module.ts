@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsuarioModule } from './usuario/usuario.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PostgresConfigService } from './config/db.config.service';
+import { postgresConfig,  } from './config/db.config.service';
 import { ConfigModule } from '@nestjs/config';
 import * as crypto from 'crypto';
 
@@ -13,8 +13,10 @@ import * as crypto from 'crypto';
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
-      useClass: PostgresConfigService,
-      inject: [PostgresConfigService],
+      useFactory: () => ({
+        ...postgresConfig,
+        autoLoadEntities: true,
+      }),
     }),
   ],
 })

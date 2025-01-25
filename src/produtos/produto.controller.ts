@@ -13,7 +13,7 @@ import { randomUUID } from 'crypto';
 import { ProductEntity } from './produto.entity';
 import { ProdutoRepository } from './produto.repository';
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
-import { CriaProdutoDTO } from './dto/CriaProduto.dto';
+import { CaracteristicaProdutoDTO, CriaProdutoDTO } from './dto/CriaProduto.dto';
 
 @Controller('produtos')
 export class ProdutoController {
@@ -48,7 +48,7 @@ export class ProdutoController {
   ) {
     const produtoAlterado = await this.produtoRepository.atualiza(
       id,
-      dadosProduto,
+      dadosProduto as unknown as Partial<ProductEntity>,
     );
 
     return {

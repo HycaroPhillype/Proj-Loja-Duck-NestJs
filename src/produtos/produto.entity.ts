@@ -33,10 +33,10 @@ export class ProductEntity {
   @Column({ name: 'categoria', length: 100, nullable: false })
   categoria: string;
 
-  @OneToMany(() => ProductCaracterEntity, (productCaracterEntity) => productCaracterEntity.product)
+  @OneToMany(() => ProductCaracterEntity,(productCaracterEntity) => productCaracterEntity.product)
   caracter: ProductCaracterEntity[];
 
-  @OneToMany(() => ProductImageEntity, (productImageEntity) => productImageEntity.product)
+  @OneToMany(() => ProductImageEntity,(productImageEntity) => productImageEntity.product)
   images: ProductImageEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
@@ -47,7 +47,4 @@ export class ProductEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
-
-
-
 }

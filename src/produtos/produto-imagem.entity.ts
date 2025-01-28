@@ -13,5 +13,5 @@ export class ProductImageEntity {
   descricao: string;
 
   @ManyToOne(() => ProductEntity, (product) => product.images)
-    product: ProductEntity
+  product: ProductEntity
 }

@@ -5,7 +5,7 @@ import { ProductEntity } from './produto.entity';
 export class ProdutoRepository {
   private produtos: ProductEntity[] = [];
 
-  listaTodos() {
+  listAll() {
     return this.produtos;
   }
 

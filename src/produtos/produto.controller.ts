@@ -14,35 +14,39 @@ import { ProductEntity } from './produto.entity';
 import { ProdutoRepository } from './produto.repository';
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 import { CaracteristicaProdutoDTO, CriaProdutoDTO } from './dto/CriaProduto.dto';
+import { ProductService } from './produto.service';
 
 @Controller('produtos')
 export class ProdutoController {
-  constructor(private readonly produtoRepository: ProdutoRepository) {}
+  constructor(
+    private readonly produtoRepository: ProdutoRepository,
+    private readonly produtoService: ProductService
+  ) {}
 
   @Post()
-  async criaNovo(@Body() dadosProduto: CriaProdutoDTO) {
-    const produto = new ProductEntity();
+  async createNew(@Body() dadosProduto: CriaProdutoDTO) {
+    const product = new ProductEntity();
 
-    produto.id = randomUUID();
-    produto.nome = dadosProduto.nome;
-    produto.valor = dadosProduto.valor;
-    produto.quantidade = dadosProduto.quantidade;
-    produto.descricao = dadosProduto.descricao;
-    produto.categoria = dadosProduto.categoria;
-    produto.caracteristicas = dadosProduto.caracteristicas;
-    produto.imagens = dadosProduto.imagens;
+    product.id = randomUUID();
+    product.nome = dadosProduto.nome;
+    product.valor = dadosProduto.valor;
+    product.quantidade = dadosProduto.quantidade;
+    product.descricao = dadosProduto.descricao;
+    product.categoria = dadosProduto.categoria;
+    product.caracteristicas = dadosProduto.caracteristicas;
+    product.imagens = dadosProduto.imagens;
 
-    const produtoCadastrado = this.produtoRepository.salva(produto);
+    const produtoCadastrado = this.produtoService.createProduct(product);
     return produtoCadastrado;
   }
 
   @Get()
-  async listaTodos() {
-    return this.produtoRepository.listaTodos();
+  async AllList() {
+    return this.produtoRepository.listAll();
   }
 
   @Put('/:id')
-  async atualiza(
+  async update(
     @Param('id') id: string,
     @Body() dadosProduto: AtualizaProdutoDTO,
   ) {

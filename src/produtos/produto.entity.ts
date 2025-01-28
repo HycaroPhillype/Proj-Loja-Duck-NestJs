@@ -33,10 +33,10 @@ export class ProductEntity {
   @Column({ name: 'categoria', length: 100, nullable: false })
   categoria: string;
 
-  @OneToMany(() => ProductCaracterEntity,(productCaracterEntity) => productCaracterEntity.product)
+  @OneToMany(() => ProductCaracterEntity,(productCaracterEntity) => productCaracterEntity.product, { cascade: true, eager: true})
   caracter: ProductCaracterEntity[];
 
-  @OneToMany(() => ProductImageEntity,(productImageEntity) => productImageEntity.product)
+  @OneToMany(() => ProductImageEntity,(productImageEntity) => productImageEntity.product, { cascade: true, eager: true})
   images: ProductImageEntity[];
 
   @CreateDateColumn({ name: 'created_at' })

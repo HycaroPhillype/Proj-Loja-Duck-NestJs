@@ -1,12 +1,15 @@
-import { Inject, Injectable, Param } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListUserDTO } from './dto/Listausuario.dto';
 import { UserEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { UpdateUserDTO } from './dto/UpdateUsers.dto';
+import { CriaUsuarioDTO } from './dto/CriaUsuario-dto';
 
 @Injectable()
 export class UserService {
+  id: string;
+  nome: string;
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
@@ -30,8 +33,14 @@ export class UserService {
   }
 
 
-  async createUser(userEntity: UserEntity)  {
-    await this.userRepository.save(userEntity)
+  async createUser(dadosUsuario: CriaUsuarioDTO)  {
+    const userEntity = new UserEntity;
+
+    userEntity.email = dadosUsuario.email;
+    userEntity.senha = dadosUsuario.senha;
+    userEntity.nome = dadosUsuario.nome;
+
+    return this.userRepository.save(userEntity)
   }
 
   async updateUser(id: string, userEntity: UpdateUserDTO) {
@@ -43,3 +52,7 @@ export class UserService {
   }
 
 }
+function uuid(): string {
+  throw new Error('Function not implemented.');
+}
+

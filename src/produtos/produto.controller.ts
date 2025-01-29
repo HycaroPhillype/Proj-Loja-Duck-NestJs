@@ -12,7 +12,7 @@ import { randomUUID } from 'crypto';
 
 import { ProductEntity } from './produto.entity';
 import { ProdutoRepository } from './produto.repository';
-import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
+import { UpdateProductDTO} from './dto/AtualizaProduto.dto';
 import { CaracteristicaProdutoDTO, CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProductService } from './produto.service';
 
@@ -25,20 +25,29 @@ export class ProdutoController {
 
   @Post()
   async createNew(@Body() dadosProduto: CriaProdutoDTO) {
-    const product = new ProductEntity();
+    const produtoCadastrado = await this.produtoService.createProduct(
+      dadosProduto,
+    );
 
-    product.id = randomUUID();
-    product.nome = dadosProduto.nome;
-    product.valor = dadosProduto.valor;
-    product.quantidade = dadosProduto.quantidade;
-    product.descricao = dadosProduto.descricao;
-    product.categoria = dadosProduto.categoria;
-    product.caracter = dadosProduto.caracter;
-    product.images = dadosProduto.images;
-
-    const produtoCadastrado = this.produtoService.createProduct(product);
-    return produtoCadastrado;
+    return {
+      mensagem: 'Produto criado com sucesso.',
+      produto: produtoCadastrado,
+    }
   }
+    // const product = new ProductEntity();
+
+    // product.id = randomUUID();
+    // product.nome = dadosProduto.nome;
+    // product.valor = dadosProduto.valor;
+    // product.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
+    // product.descricao = dadosProduto.descricao;
+    // product.categoria = dadosProduto.categoria;
+    // product.caracter = dadosProduto.caracter;
+    // product.images = dadosProduto.images;
+
+    // const produtoCadastrado = this.produtoService.createProduct(product);
+    // return produtoCadastrado;
+
 
   @Get()
   async AllList() {
@@ -48,7 +57,7 @@ export class ProdutoController {
   @Put('/:id')
   async update(
     @Param('id') id: string,
-    @Body() dadosProduto: AtualizaProdutoDTO,
+    @Body() dadosProduto: UpdateProductDTO,
   ) {
     const produtoAlterado = await this.produtoRepository.atualiza(
       id,

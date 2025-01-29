@@ -28,7 +28,7 @@ export class CaracteristicaProdutoDTO {
 
 export class ImagemProdutoDTO {
   id: string;
-  
+
   @IsUrl()
   @IsNotEmpty({ message: 'URL para imagem inválida' })
   url: string;
@@ -77,4 +77,5 @@ export class CriaProdutoDTO {
   @IsString()
   @IsNotEmpty({ message: 'Categoria do produto não pode ser vazia' })
   categoria: string;
+  quantidadeDisponivel: number;
 }

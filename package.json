@@ -10,7 +10,7 @@
     "orm:show": "npm run typeorm -- -d ./src/db/data-source-cli.ts migration:show",
     "orm:create": "npm run typeorm -- -d ./src/db/data-source-cli.ts migration:create",
     "orm:run": "npm run typeorm -- -d ./src/db/data-source-cli.ts migration:run",
-    "orm:generate": "npm run typeorm -- -d ./src/db/data-source-cli.ts migration:generate",
+    "orm:generate": "npm run typeorm -- -d ./src/db/data-source-cli.ts migration:generate ./src/db/migrations/cria-tabelas",
     "orm:revert": "npm run typeorm -- -d ./src/db/data-source-cli.ts migration:revert",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

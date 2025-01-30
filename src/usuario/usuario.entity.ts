@@ -13,7 +13,10 @@ export class UserEntity {
   @Column({ name: 'email', length: 70, nullable: false })
   email: string;
 
-  @Column({ name: 'senha', length: 255, nullable: false })
+  @Column({ name: 'endereco', length: 255, nullable: true })
+  endereco: string;
+
+  @Column({ length: 255, nullable: false })
   senha: string;
 
   @CreateDateColumn({ name: 'created_at' })

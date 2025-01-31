@@ -7,13 +7,13 @@ export class UserEntity {
   }
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column({ name: 'nome', length: 100, nullable: false })
+  @Column({ length: 100, nullable: false })
   nome: string;
 
-  @Column({ name: 'email', length: 70, nullable: false })
+  @Column({ length: 70, nullable: false })
   email: string;
 
-  @Column({ name: 'endereco', length: 255, nullable: true })
+  @Column({ length: 255, nullable: true })
   endereco: string;
 
   @Column({ length: 255, nullable: false })

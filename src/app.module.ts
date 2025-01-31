@@ -3,6 +3,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresConfig,  } from './config/db.config.service';
 import { ConfigModule } from '@nestjs/config';
+import { PedidoModule } from './pedido/pedido.module';
 import * as crypto from 'crypto';
 
 (global as any).crypto = crypto;
@@ -18,6 +19,7 @@ import * as crypto from 'crypto';
         autoLoadEntities: true,
       }),
     }),
+    PedidoModule,
   ],
 })
 export class AppModule {}

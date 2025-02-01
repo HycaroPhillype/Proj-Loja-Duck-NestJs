@@ -5,8 +5,10 @@ import {
   UpdateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
+  ManyToOne,
 } from 'typeorm';
 import { StatusPedido } from './enum/status.pedido.enum';
+import { UserEntity } from '../usuario/usuario.entity';
 
 @Entity({ name: 'pedidos' })
 export class PedidoEntity {
@@ -30,4 +32,8 @@ export class PedidoEntity {
 
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt: string;
+
+  @ManyToOne(() => UserEntity, (user) => user.pedidos)
+  user: UserEntity
+
 }

@@ -1,1 +1,3 @@
-export class CreatePedidoDto {}
+export class CreatePedidoDto {
+  userId: string;
+}

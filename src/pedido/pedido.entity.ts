@@ -38,8 +38,8 @@ export class PedidoEntity {
   @ManyToOne(() => UserEntity, (user) => user.pedidos)
   user: UserEntity
 
-  @OneToMany(() => ItemOrderEntity, (itemOrder) => itemOrder.order, {
+  @OneToMany(() => ItemOrderEntity, (itemsOrder) => itemsOrder.order, {
     cascade:true
   })
-  itemOrder: ItemOrderEntity[]
+  itemsOrder: ItemOrderEntity[]
 };

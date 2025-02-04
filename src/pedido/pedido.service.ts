@@ -1,11 +1,11 @@
-import { Injectable, Query } from '@nestjs/common';
-import { CreatePedidoDto } from './dto/create-pedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../usuario/usuario.entity';
 import { StatusPedido } from './enum/status.pedido.enum';
+import { CreateOrderDto } from './dto/CriaPedido.dto';
+import { ItemOrderEntity } from './intempedido.entity';
 
 @Injectable()
 export class PedidoService {
@@ -14,30 +14,45 @@ export class PedidoService {
     private readonly pedindoRepository: Repository<PedidoEntity>,
 
     @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async registerOrder(userId: string) {
-    const user = await this.userRepository.findOneBy({id: userId})
+  async registerOrder(userId: string, dataOrder: CreateOrderDto) {
+    const user = await this.userRepository.findOneBy({ id: userId });
     const orderEntity = new PedidoEntity();
 
-    orderEntity.valorTotal = 0;
     orderEntity.status = StatusPedido.EM_PROCESSAMENTO;
-    orderEntity.user = user
+    orderEntity.user = user;
 
-    const orderCreate = await this.pedindoRepository.save(orderEntity)
+    const itemsOrderEntity = dataOrder.itemsOrder.map((intemOrder) => {
+      const itemOrderEntity = new ItemOrderEntity();
 
-    return orderCreate
+      itemOrderEntity.precoVenda = 10;
+      itemOrderEntity.quantidade = intemOrder.quantidade;
+      return itemOrderEntity
+    })
+
+    const valorTotal = itemsOrderEntity.reduce((total, item) => {
+      return total + item.precoVenda * item.quantidade
+    }, 0);
+
+    orderEntity.itemsOrder = itemsOrderEntity
+
+    orderEntity.valorTotal = valorTotal
+
+    const orderCreate = await this.pedindoRepository.save(orderEntity);
+
+    return orderCreate;
   }
 
   async getOrderUser(userId: string) {
     return this.pedindoRepository.find({
       where: {
-        user: { id: userId}
+        user: { id: userId },
       },
       relations: {
-        user: true
-      }
-    })
+        user: true,
+      },
+    });
   }
 }

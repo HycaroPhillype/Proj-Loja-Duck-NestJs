@@ -20,7 +20,7 @@ export class ItemOrderEntity {
   @Column({ name: "preco_venda", nullable: false })
   precoVenda: number;
 
-  @ManyToOne(() => PedidoEntity, (order) => order.itemOrder, {
+  @ManyToOne(() => PedidoEntity, (order) => order.itemsOrder, {
     onDelete: 'CASCADE',
     onUpdate:'CASCADE',
   })

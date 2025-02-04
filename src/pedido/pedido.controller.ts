@@ -1,25 +1,28 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
-import { CreatePedidoDto } from './dto/create-pedido.dto';
-import { UpdatePedidoDto } from './dto/update-pedido.dto';
+import { CreateOrderDto } from './dto/CriaPedido.dto';
 
 @Controller('pedido')
 export class PedidoController {
-  constructor(private readonly pedidoService: PedidoService) {}
+  constructor(private readonly orderService: PedidoService) {}
 
   @Post()
-  create(@Body('userId') userId: string) {
-    return this.pedidoService.registerOrder(userId);
+  async createOrder(
+    @Query('userId') userId: string,
+    @Body() dataOrder: CreateOrderDto,
+  ) {
+    const orderCreate = await this.orderService.registerOrder(userId, dataOrder);
+
+   return orderCreate
   }
+
 
   @Get()
   async getOrderUser(@Query('userId') userId: string) {
-    const order = await this.pedidoService.getOrderUser(userId);
+    const order = await this.orderService.getOrderUser(userId);
 
-    return order
+    return order;
   }
-
-
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

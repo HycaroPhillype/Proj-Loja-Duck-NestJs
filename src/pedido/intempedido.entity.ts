@@ -5,6 +5,7 @@ import {
   ManyToOne
 } from 'typeorm';
 import { PedidoEntity } from './pedido.entity';
+import { ProductEntity } from '../produtos/produto.entity';
 
 @Entity({ name: 'intens_pedidos' })
 export class ItemOrderEntity {
@@ -25,4 +26,10 @@ export class ItemOrderEntity {
     onUpdate:'CASCADE',
   })
   order: PedidoEntity
+
+  @ManyToOne(() => ProductEntity, (product) => product.itemsOrder, {
+    cascade: ['update']
+  })
+
+  product: ProductEntity
 }

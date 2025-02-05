@@ -16,7 +16,7 @@ export class ProductService {
     const produtoEntity = new ProductEntity();
 
     produtoEntity.nome = dadosProduto.nome;
-    produtoEntity.valor = dadosProduto.valor;
+    produtoEntity.value = dadosProduto.valor;
     produtoEntity.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
     produtoEntity.descricao = dadosProduto.descricao;
     produtoEntity.categoria = dadosProduto.categoria;

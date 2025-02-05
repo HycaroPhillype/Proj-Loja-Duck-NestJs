@@ -4,10 +4,13 @@ import {
   IsArray,
   IsInt,
   IsOptional,
+  IsUUID,
   ValidateNested,
 } from 'class-validator';
 
 export class ItemOrderDTO {
+  @IsUUID()
+  productId: string;
   @IsInt()
   quantidade: number;
 }
@@ -22,7 +25,7 @@ export class CreateOrderDto {
   @IsArray() // valida se uma propriedade é um arrya.
 
   @IsOptional()
-  
+
   @Type(() => ItemOrderDTO) //valida o tipo de objeto declado.
   itemsOrder: ItemOrderDTO[];
 }

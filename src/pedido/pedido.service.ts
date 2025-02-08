@@ -42,7 +42,7 @@ export class PedidoService {
       itemOrderEntity.product = productRelated;
       itemOrderEntity.precoVenda = productRelated.value
       itemOrderEntity.quantidade = itemOrder.quantidade;
-      itemOrderEntity.product.quantidadeDisponivel <= itemOrder.quantidade
+      itemOrderEntity.product.quantidadeDisponivel -= itemOrder.quantidade
       return itemOrderEntity;
     });
 

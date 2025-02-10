@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Patch, Param } from '@nestjs/common';
 import { PedidoService } from './pedido.service';
 import { CreateOrderDto } from './dto/CriaPedido.dto';
+import { UpdateOrderDto } from './dto/UpdateOrder.dto';
 
 @Controller('pedido')
 export class PedidoController {
@@ -29,10 +30,12 @@ export class PedidoController {
   //   return this.pedidoService.findOne(+id);
   // }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
-  //   return this.pedidoService.update(+id, updatePedidoDto);
-  // }
+  @Patch(':id')
+  updateOrder(
+    @Param('id') orderId: string,
+    @Body() dataUpdate: UpdateOrderDto) {
+    return this.orderService.updateOrder(orderId, dataUpdate)
+  }
 
   // @Delete(':id')
   // remove(@Param('id') id: string) {

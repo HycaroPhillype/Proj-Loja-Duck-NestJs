@@ -7,6 +7,7 @@ import { StatusPedido } from './enum/status.pedido.enum';
 import { CreateOrderDto } from './dto/CriaPedido.dto';
 import { ItemOrderEntity } from './intempedido.entity';
 import { ProductEntity } from '../produtos/produto.entity';
+import { UpdateOrderDto } from './dto/UpdateOrder.dto';
 @Injectable()
 export class PedidoService {
   constructor(
@@ -68,5 +69,13 @@ export class PedidoService {
         user: true,
       },
     });
+  }
+
+  async updateOrder(id: string, dto: UpdateOrderDto) {
+    const order =  await this.pedindoRepository.findOneBy({id})
+
+    Object.assign(order, dto)
+
+    return this.pedindoRepository.save(order)
   }
 }

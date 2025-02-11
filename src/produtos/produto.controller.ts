@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -51,7 +52,7 @@ export class ProdutoController {
 
   @Get()
   async AllList() {
-    return this.produtoRepository.listAll();
+    return this.produtoService.listAll();
   }
 
   @Put('/:id')
@@ -59,7 +60,7 @@ export class ProdutoController {
     @Param('id') id: string,
     @Body() dadosProduto: UpdateProductDTO,
   ) {
-    const produtoAlterado = await this.produtoRepository.atualiza(
+    const produtoAlterado = await this.produtoService.updateProduct(
       id,
       dadosProduto as unknown as Partial<ProductEntity>,
     );

@@ -14,9 +14,11 @@ import { CaracteristicaProdutoDTO, ImagemProdutoDTO } from './CriaProduto.dto';
 
 export class UpdateProductDTO {
   @IsUUID(undefined, { message: 'ID do produto inválido' })
+  @IsOptional()
   id: string;
 
   @IsUUID(undefined, { message: 'ID de usuário inválido' })
+  @IsOptional()
   usuarioId: string;
 
   @IsString()

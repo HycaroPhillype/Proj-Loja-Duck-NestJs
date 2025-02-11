@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -23,6 +23,11 @@ export class PedidoService {
 
   async registerOrder(userId: string, dataOrder: CreateOrderDto) {
     const user = await this.userRepository.findOneBy({ id: userId });
+
+    if (!user) {
+      throw new NotFoundException('Usuario não encontrado')
+    }
+
     const productsIds = dataOrder.itemsOrder.map(
       (itemOrder) => itemOrder.productId,
     );
@@ -39,6 +44,10 @@ export class PedidoService {
       const productRelated = productsRelated.find(
         (product) => product.id === itemOrder.productId,
       );
+      if (!productRelated) {
+        throw new NotFoundException(`Produto com ID ${itemOrder.productId} não encontrado`)
+      }
+
       const itemOrderEntity = new ItemOrderEntity();
       itemOrderEntity.product = productRelated;
       itemOrderEntity.precoVenda = productRelated.value
@@ -72,7 +81,11 @@ export class PedidoService {
   }
 
   async updateOrder(id: string, dto: UpdateOrderDto) {
-    const order =  await this.pedindoRepository.findOneBy({id})
+    const order =  await this.pedindoRepository.findOneBy({id});
+
+    if (!order) {
+      throw new NotFoundException('O Pedido não foi encontrado')
+    }
 
     Object.assign(order, dto)
 

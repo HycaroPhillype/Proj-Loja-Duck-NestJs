@@ -5,11 +5,12 @@ import { postgresConfig,  } from './config/db.config.service';
 import { ConfigModule } from '@nestjs/config';
 import { PedidoModule } from './pedido/pedido.module';
 import * as crypto from 'crypto';
+import { ProdutoModule } from './produtos/produto.module';
 
 (global as any).crypto = crypto;
 @Module({
   imports: [
-    UsuarioModule,
+    UsuarioModule, ProdutoModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

@@ -16,6 +16,7 @@ export class UserEntity {
   }
   @PrimaryGeneratedColumn('uuid')
   id: string;
+  
   @Column({ length: 100, nullable: false })
   nome: string;
 

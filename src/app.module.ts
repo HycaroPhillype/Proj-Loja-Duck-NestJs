@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import { PedidoModule } from './pedido/pedido.module';
 import * as crypto from 'crypto';
 import { ProdutoModule } from './produtos/produto.module';
+import { APP_FILTER } from '@nestjs/core';
+import { FilterExceptionHttp } from './filter/filter-exception-http';
 
 (global as any).crypto = crypto;
 @Module({
@@ -22,5 +24,11 @@ import { ProdutoModule } from './produtos/produto.module';
     }),
     PedidoModule,
   ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: FilterExceptionHttp,
+    }
+  ]
 })
 export class AppModule {}

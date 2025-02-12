@@ -20,7 +20,7 @@ export class UserEntity {
   @Column({ length: 100, nullable: false })
   nome: string;
 
-  @Column({ unique: true, length: 70, nullable: false })
+  @Column({ length: 70, nullable: false })
   email: string;
 
   @Column({ length: 255, nullable: true })

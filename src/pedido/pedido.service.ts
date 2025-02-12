@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -21,11 +21,31 @@ export class PedidoService {
     private readonly orderRepository: Repository<ProductEntity>,
   ) {}
 
+  private treatDataOrder(
+    dataOrder: CreateOrderDto,
+    productsRelateds: ProductEntity[],
+  ) {
+    dataOrder.itemsOrder.forEach((itemOrder) => {
+      const productRelated = productsRelateds.find(
+        (product) => product.id === itemOrder.productId,
+      );
+
+      if (!productRelated)
+        throw new NotFoundException(
+          `O Produto com id ${itemOrder.productId} não foi encontrado.`,
+        );
+
+        if (itemOrder.quantidade > productRelated.quantidadeDisponivel) {
+          throw new BadRequestException(`A quantidade splicitada (${itemOrder.quantidade}) é maior do que a disponivel (${productRelated.quantidadeDisponivel}) para o (${productRelated.nome})`)
+        }
+    });
+  }
+
   async registerOrder(userId: string, dataOrder: CreateOrderDto) {
     const user = await this.userRepository.findOneBy({ id: userId });
 
     if (!user) {
-      throw new NotFoundException('Usuario não encontrado')
+      throw new NotFoundException('Usuario não encontrado');
     }
 
     const productsIds = dataOrder.itemsOrder.map(
@@ -40,19 +60,19 @@ export class PedidoService {
     orderEntity.status = StatusPedido.EM_PROCESSAMENTO;
     orderEntity.user = user;
 
+    this.treatDataOrder(dataOrder, productsRelated);
+
     const itemsOrderEntity = dataOrder.itemsOrder.map((itemOrder) => {
       const productRelated = productsRelated.find(
         (product) => product.id === itemOrder.productId,
       );
-      if (!productRelated) {
-        throw new NotFoundException(`Produto com ID ${itemOrder.productId} não encontrado`)
-      }
+
 
       const itemOrderEntity = new ItemOrderEntity();
-      itemOrderEntity.product = productRelated;
-      itemOrderEntity.precoVenda = productRelated.value
+      itemOrderEntity.product = productRelated!;
+      itemOrderEntity.precoVenda = productRelated!.value;
       itemOrderEntity.quantidade = itemOrder.quantidade;
-      itemOrderEntity.product.quantidadeDisponivel -= itemOrder.quantidade
+      itemOrderEntity.product.quantidadeDisponivel -= itemOrder.quantidade;
       return itemOrderEntity;
     });
 
@@ -81,14 +101,14 @@ export class PedidoService {
   }
 
   async updateOrder(id: string, dto: UpdateOrderDto) {
-    const order =  await this.pedindoRepository.findOneBy({id});
+    const order = await this.pedindoRepository.findOneBy({ id });
 
     if (!order) {
-      throw new NotFoundException('O Pedido não foi encontrado')
+      throw new NotFoundException('O Pedido não foi encontrado');
     }
 
-    Object.assign(order, dto)
+    Object.assign(order, dto);
 
-    return this.pedindoRepository.save(order)
+    return this.pedindoRepository.save(order);
   }
 }

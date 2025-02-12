@@ -14,7 +14,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
-
+  
   async listUsers() {
     const usersSave = await this.userRepository.find();
     const usersList = usersSave.map(
@@ -32,16 +32,20 @@ export class UserService {
 
   }
 
-
-  async createUser(dadosUsuario: CriaUsuarioDTO)  {
-    const userEntity = new UserEntity;
-
-    userEntity.email = dadosUsuario.email;
-    userEntity.senha = dadosUsuario.senha;
-    userEntity.nome = dadosUsuario.nome;
-
+  async createUser(dadosUsuario: CriaUsuarioDTO) {
+    const userEntity = this.userRepository.create(dadosUsuario);
     return this.userRepository.save(userEntity)
   }
+
+  // async createUser(dadosUsuario: CriaUsuarioDTO)  {
+  //   const userEntity = new UserEntity;
+
+  //   userEntity.email = dadosUsuario.email;
+  //   userEntity.senha = dadosUsuario.senha;
+  //   userEntity.nome = dadosUsuario.nome;
+
+  //   return this.userRepository.save(userEntity)
+  // }
 
   async updateUser(id: string, userEntity: UpdateUserDTO) {
     await this.userRepository.update(id, userEntity);
@@ -51,8 +55,5 @@ export class UserService {
     await this.userRepository.delete(id);
   }
 
-}
-function uuid(): string {
-  throw new Error('Function not implemented.');
 }
 

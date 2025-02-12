@@ -12,7 +12,6 @@ import { randomUUID } from 'crypto';
 
 
 import { ProductEntity } from './produto.entity';
-import { ProdutoRepository } from './produto.repository';
 import { UpdateProductDTO} from './dto/AtualizaProduto.dto';
 import { CaracteristicaProdutoDTO, CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProductService } from './produto.service';
@@ -20,7 +19,6 @@ import { ProductService } from './produto.service';
 @Controller('produtos')
 export class ProdutoController {
   constructor(
-    private readonly produtoRepository: ProdutoRepository,
     private readonly produtoService: ProductService
   ) {}
 
@@ -68,16 +66,6 @@ export class ProdutoController {
     return {
       mensagem: 'produto atualizado com sucesso',
       produto: produtoAlterado,
-    };
-  }
-
-  @Delete('/:id')
-  async remove(@Param('id') id: string) {
-    const produtoRemovido = await this.produtoRepository.remove(id);
-
-    return {
-      mensagem: 'produto removido com sucesso',
-      produto: produtoRemovido,
     };
   }
 }

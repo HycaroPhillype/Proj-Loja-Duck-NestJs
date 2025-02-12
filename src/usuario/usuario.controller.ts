@@ -1,5 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UsuarioRepository } from './usuario.repository';
 import { CriaUsuarioDTO } from './dto/CriaUsuario-dto';
 import { ListUserDTO } from './dto/Listausuario.dto';
 import { UpdateUserDTO } from './dto/UpdateUsers.dto';
@@ -7,7 +6,6 @@ import { UserService } from './usuario.service';
 @Controller('/usuarios')
 export class UsuarioController {
   constructor(
-    private userRepository: UsuarioRepository,
     private userService: UserService
   ) {}
 

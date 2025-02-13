@@ -103,14 +103,14 @@ export class PedidoService {
   async updateOrder(id: string, dto: UpdateOrderDto) {
     const order = await this.pedindoRepository.findOneBy({ id });
 
-    // throw new Error('Simulando erro de banco de dados...');
+    throw new Error('Simulando erro de banco de dados...');
 
-    if (!order) {
-      throw new NotFoundException('O Pedido não foi encontrado');
-    }
+    // if (!order) {
+    //   throw new NotFoundException('O Pedido não foi encontrado');
+    // }
 
-    Object.assign(order, dto);
+    // Object.assign(order, dto);
 
-    return this.pedindoRepository.save(order);
+    // return this.pedindoRepository.save(order);
   }
 }

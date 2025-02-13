@@ -5,17 +5,20 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
-export class FilterExceptionHttp implements ExceptionFilter {
+export class FilterExceptionGlobal implements ExceptionFilter {
+  constructor(private adapterHost: HttpAdapterHost) {}  // torando mais flexibel para usar tanto Express quanto Fastify
+
   catch(exception: unknown, host: ArgumentsHost) {
     console.log(exception);
 
-    const context = host.switchToHttp();
-    const response = context.getResponse<Response>();
+    const { httpAdapter } = this.adapterHost
 
-    const request = context.getRequest<Request>();
+    const context = host.switchToHttp();
+    const response = context.getResponse();
+    const request = context.getRequest();
 
     const { status, body } =
       exception instanceof HttpException
@@ -28,10 +31,10 @@ export class FilterExceptionHttp implements ExceptionFilter {
             body: {
               statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
               timestamp: new Date().toISOString(),
-              path: request.url,
+              path: httpAdapter.getRequestUrl(request),
             },
           };
 
-    response.status(status).json(body);
+    httpAdapter.reply(response, body, status);
   }
 }

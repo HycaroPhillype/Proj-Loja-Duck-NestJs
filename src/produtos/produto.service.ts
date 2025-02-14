@@ -12,16 +12,9 @@ export class ProductService {
   ) {}
 
   async createProduct(dadosProduto: CriaProdutoDTO) {
-    const produtoEntity = new ProductEntity();
+    const produtoEntity: ProductEntity = new ProductEntity();
 
-    produtoEntity.nome = dadosProduto.nome;
-    produtoEntity.value = dadosProduto.valor;
-    produtoEntity.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
-    produtoEntity.descricao = dadosProduto.descricao;
-    produtoEntity.categoria = dadosProduto.categoria;
-    produtoEntity.caracter = dadosProduto.caracter;
-    produtoEntity.images = dadosProduto.images;
-
+    Object.assign(produtoEntity, dadosProduto as ProductEntity)
     return this.productRepository.save(produtoEntity);
   }
   // async createProduct(productEntity: ProductEntity) {
@@ -33,10 +26,21 @@ export class ProductService {
   }
 
   async updateProduct(id: string, dadosProduto: Partial<ProductEntity>) {
-    const product = await this.productRepository.findOneBy({id});
+    const product = await this.productRepository.findOneBy({ id });
 
-    if(!product) throw new NotFoundException('Produto não encontrado')
+    if (!product) throw new NotFoundException('Produto não encontrado');
+    const newProduct = {
+      ...product,
+      ...dadosProduto,
+    };
+    return this.productRepository.update(id, newProduct);
+  }
 
-    return product
+  async deleteProduct(id: string) {
+    const result = await this.productRepository.delete(id);
+
+    if (!result.affected) {
+      throw new NotFoundException('O Produto não foi encontrado!');
+    }
   }
 }

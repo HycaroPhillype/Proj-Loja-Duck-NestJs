@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListUserDTO } from './dto/Listausuario.dto';
 import { UserEntity } from './usuario.entity';
@@ -14,7 +14,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
-  
+
   async listUsers() {
     const usersSave = await this.userRepository.find();
     const usersList = usersSave.map(
@@ -29,7 +29,15 @@ export class UserService {
       throw new Error('Usuário não encontrado')
     }
       return new ListUserDTO(user.id, user.nome)
+  }
 
+  async searchByEmail(email: string ) {
+    const checkEmail = await this.userRepository.findOne({
+      where: { email },
+    })
+
+    if (!checkEmail) throw new NotFoundException('O email não foi encontrado')
+    return checkEmail;
   }
 
   async createUser(dadosUsuario: CriaUsuarioDTO) {
@@ -54,6 +62,5 @@ export class UserService {
   async deleteUser(id: string) {
     await this.userRepository.delete(id);
   }
-
 }
 

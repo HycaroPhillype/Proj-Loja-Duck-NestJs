@@ -49,7 +49,7 @@ export class CriaProdutoDTO {
 
   @IsNumber({ maxDecimalPlaces: 2, allowNaN: false, allowInfinity: false })
   @Min(1, { message: 'O valor precisa ser maior que zero' })
-  valor: number;
+  value: number;
 
   @IsNumber()
   @Min(0, { message: 'Quantidade mínima inválida' })

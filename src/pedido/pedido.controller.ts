@@ -17,7 +17,6 @@ export class PedidoController {
    return orderCreate
   }
 
-
   @Get()
   async getOrderUser(@Query('userId') userId: string) {
     const order = await this.orderService.getOrderUser(userId);

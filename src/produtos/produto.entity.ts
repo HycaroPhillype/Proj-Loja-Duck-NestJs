@@ -14,7 +14,7 @@ import { ItemOrderEntity } from '../pedido/intempedido.entity';
 @Entity({ name: 'produtos' })
 export class ProductEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column({ name: 'nome', length: 100, nullable: false })
   nome: string;
@@ -38,14 +38,14 @@ export class ProductEntity {
   images: ProductImageEntity[];
 
   @OneToMany(() => ItemOrderEntity, (itemOrder) => itemOrder.product )
-  itemsOrder: ItemOrderEntity[];
+  itemsOrder?: ItemOrderEntity[];
 
   @CreateDateColumn({ name: 'created_at' })
-  cratedAt: string;
+  cratedAt?: string;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: string;
+  updatedAt?: string;
 
   @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: string;
+  deletedAt?: string;
 }

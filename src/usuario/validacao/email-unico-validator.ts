@@ -18,7 +18,6 @@ export class EmailUnicoValidator implements ValidatorConstraintInterface {
       private readonly userRepository: Repository<UserEntity>
     ) {}
 
-
   async validate(
     value: any,
     validationArguments?: ValidationArguments,

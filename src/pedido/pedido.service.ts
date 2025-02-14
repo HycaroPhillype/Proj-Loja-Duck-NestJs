@@ -12,7 +12,7 @@ import { UpdateOrderDto } from './dto/UpdateOrder.dto';
 export class PedidoService {
   constructor(
     @InjectRepository(PedidoEntity)
-    private readonly pedindoRepository: Repository<PedidoEntity>,
+    private readonly pedidoRepository: Repository<PedidoEntity>,
 
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -20,6 +20,17 @@ export class PedidoService {
     @InjectRepository(ProductEntity)
     private readonly orderRepository: Repository<ProductEntity>,
   ) {}
+
+  private async searchUser(id) {
+    const user = await this.userRepository.findOneBy({ id });
+
+    if ( !user ) {
+      throw new NotFoundException('O usuário não foi encontrado');
+    }
+
+    return user;
+  }
+
 
   private treatDataOrder(
     dataOrder: CreateOrderDto,
@@ -84,13 +95,16 @@ export class PedidoService {
 
     orderEntity.valorTotal = valorTotal;
 
-    const orderCreate = await this.pedindoRepository.save(orderEntity);
+    const orderCreate = await this.pedidoRepository.save(orderEntity);
 
     return orderCreate;
   }
 
   async getOrderUser(userId: string) {
-    return this.pedindoRepository.find({
+
+    const user = await this.searchUser(userId)
+
+    return this.pedidoRepository.find({
       where: {
         user: { id: userId },
       },
@@ -101,16 +115,16 @@ export class PedidoService {
   }
 
   async updateOrder(id: string, dto: UpdateOrderDto) {
-    const order = await this.pedindoRepository.findOneBy({ id });
+    const order = await this.pedidoRepository.findOneBy({ id });
 
-    throw new Error('Simulando erro de banco de dados...');
+    // throw new Error('Simulando erro de banco de dados...');
 
-    // if (!order) {
-    //   throw new NotFoundException('O Pedido não foi encontrado');
-    // }
+    if (!order) {
+      throw new NotFoundException('O Pedido não foi encontrado');
+    }
 
-    // Object.assign(order, dto);
+    Object.assign(order, dto);
 
-    // return this.pedindoRepository.save(order);
+    return this.pedidoRepository.save(order);
   }
 }

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { In, Repository } from 'typeorm';
@@ -24,13 +28,12 @@ export class PedidoService {
   private async searchUser(id) {
     const user = await this.userRepository.findOneBy({ id });
 
-    if ( !user ) {
+    if (!user) {
       throw new NotFoundException('O usuário não foi encontrado');
     }
 
     return user;
   }
-
 
   private treatDataOrder(
     dataOrder: CreateOrderDto,
@@ -46,9 +49,11 @@ export class PedidoService {
           `O Produto com id ${itemOrder.productId} não foi encontrado.`,
         );
 
-        if (itemOrder.quantidade > productRelated.quantidadeDisponivel) {
-          throw new BadRequestException(`A quantidade splicitada (${itemOrder.quantidade}) é maior do que a disponivel (${productRelated.quantidadeDisponivel}) para o (${productRelated.nome})`)
-        }
+      if (itemOrder.quantidade > productRelated.quantidadeDisponivel) {
+        throw new BadRequestException(
+          `A quantidade splicitada (${itemOrder.quantidade}) é maior do que a disponivel (${productRelated.quantidadeDisponivel}) para o (${productRelated.nome})`,
+        );
+      }
     });
   }
 
@@ -78,7 +83,6 @@ export class PedidoService {
         (product) => product.id === itemOrder.productId,
       );
 
-
       const itemOrderEntity = new ItemOrderEntity();
       itemOrderEntity.product = productRelated!;
       itemOrderEntity.precoVenda = productRelated!.value;
@@ -101,8 +105,7 @@ export class PedidoService {
   }
 
   async getOrderUser(userId: string) {
-
-    const user = await this.searchUser(userId)
+    const user = await this.searchUser(userId);
 
     return this.pedidoRepository.find({
       where: {
@@ -117,13 +120,11 @@ export class PedidoService {
   async updateOrder(id: string, dto: UpdateOrderDto) {
     const order = await this.pedidoRepository.findOneBy({ id });
 
-    // throw new Error('Simulando erro de banco de dados...');
-
     if (!order) {
       throw new NotFoundException('O Pedido não foi encontrado');
     }
 
-    Object.assign(order, dto);
+    Object.assign(order, dto as PedidoEntity);
 
     return this.pedidoRepository.save(order);
   }

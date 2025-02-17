@@ -58,14 +58,14 @@ export class ProdutoController {
     @Param('id') id: string,
     @Body() dadosProduto: UpdateProductDTO,
   ) {
-    const produtoAlterado = await this.produtoService.updateProduct(
+    const productChanged = await this.produtoService.updateProduct(
       id,
       dadosProduto as unknown as Partial<ProductEntity>,
     );
 
     return {
       mensagem: 'produto atualizado com sucesso',
-      produto: produtoAlterado,
+      produto: productChanged,
     };
   }
 

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
-import { UsuarioModule } from './usuario/usuario.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresConfig } from './config/db.config.service';
 import { ConfigModule } from '@nestjs/config';
-import { PedidoModule } from './pedido/pedido.module';
 import * as crypto from 'crypto';
-import { ProdutoModule } from './produtos/produto.module';
 import { APP_FILTER } from '@nestjs/core';
-import { FilterExceptionGlobal } from './filter/filter-exception-global';
+import { FilterExceptionGlobal } from './resources/filter/filter-exception-global';
+import { UsuarioModule } from './modulos/usuario/usuario.module';
+import { PedidoModule } from './modulos/pedido/pedido.module';
+import { ProdutoModule } from './modulos/produtos/produto.module';
 
 (global as any).crypto = crypto;
 @Module({

@@ -8,8 +8,8 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { StatusPedido } from './enum/status.pedido.enum';
 import { UserEntity } from '../usuario/usuario.entity';
+import { StatusPedido } from './enum/status.pedido.enum';
 import { ItemOrderEntity } from './intempedido.entity';
 
 @Entity({ name: 'pedidos' })

@@ -12,3 +12,4 @@ import { PedidoEntity } from './pedido.entity';
   providers: [PedidoService],
 })
 export class PedidoModule {}
+

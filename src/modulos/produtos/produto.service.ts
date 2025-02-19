@@ -13,27 +13,36 @@ export class ProductService {
 
   async createProduct(dadosProduto: CriaProdutoDTO) {
     const produtoEntity: ProductEntity = new ProductEntity();
+    // const {caracter, images, ...rest} = dadosProduto
 
     Object.assign(produtoEntity, dadosProduto as ProductEntity)
     return this.productRepository.save(produtoEntity);
   }
-  // async createProduct(productEntity: ProductEntity) {
-  //   await this.productRepository.save(productEntity);
-  // }
 
   async listAll() {
     return this.productRepository.find();
   }
 
+  async listById(id: string) {
+    return this.productRepository.findOne({ //Se precisa trazer relações (@OneToMany, @ManyToOne): Use findOne() com relations.
+      where: { id },
+      relations: ['caracter']
+    })
+    // return this.productRepository.findOneBy({ id })   //Se só precisa do produto pelo ID: Use findOneBy().
+  }
+
   async updateProduct(id: string, dadosProduto: Partial<ProductEntity>) {
     const product = await this.productRepository.findOneBy({ id });
+
+    // const { caracter, images, ...rest } = dadosProduto
 
     if (!product) throw new NotFoundException('Produto não encontrado');
     const newProduct = {
       ...product,
       ...dadosProduto,
     };
-    return this.productRepository.update(id, newProduct);
+
+    return this.productRepository.save(newProduct);
   }
 
   async deleteProduct(id: string) {

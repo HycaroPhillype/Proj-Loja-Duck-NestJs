@@ -8,7 +8,8 @@ import { FilterExceptionGlobal } from './resources/filter/filter-exception-globa
 import { UsuarioModule } from './modulos/usuario/usuario.module';
 import { PedidoModule } from './modulos/pedido/pedido.module';
 import { ProdutoModule } from './modulos/produtos/produto.module';
-import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
 
 (global as any).crypto = crypto;
 @Module({
@@ -25,7 +26,12 @@ import { CacheInterceptor, CacheModule } from '@nestjs/cache-manager';
       }),
     }),
     PedidoModule,
-    CacheModule.register({isGlobal: true, ttl: 10000}), // esse "ttl" se caso eu fiz um Get, antes de dez segundo vou pegar as mesmas informações, so que do cach, da memoria. depois dos 10 segundo, vai ser novamente um get do BD.
+    CacheModule.registerAsync({
+      useFactory: async () => ({
+        store: await redisStore({ ttl: 10 * 1000 }),
+      }),
+      isGlobal: true,
+    }), // esse "ttl" se caso eu fiz um Get, antes de dez segundo vou pegar as mesmas informações, so que do cach, da memoria. depois dos 10 segundo, vai ser novamente um get do BD.
   ],
   providers: [
     {

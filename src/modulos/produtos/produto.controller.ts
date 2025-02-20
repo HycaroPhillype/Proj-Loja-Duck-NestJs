@@ -43,6 +43,7 @@ export class ProdutoController {
   // return produtoCadastrado;
 
   @Get()
+  @UseInterceptors(CacheInterceptor)
   async AllList() {
     return this.produtoService.listAll();
   }

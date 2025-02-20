@@ -15,6 +15,14 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>
   ) {}
 
+  async createUser(dadosUsuario: CriaUsuarioDTO)  {
+    const userEntity = new UserEntity();
+
+    Object.assign(userEntity, dadosUsuario as UserEntity)
+    
+    return this.userRepository.save(userEntity)
+  }
+
   async listUsers() {
     const usersSave = await this.userRepository.find();
     const usersList = usersSave.map(
@@ -38,19 +46,6 @@ export class UserService {
 
     if (!checkEmail) throw new NotFoundException('O email não foi encontrado')
     return checkEmail;
-  }
-
-  // async createUser(dadosUsuario: CriaUsuarioDTO) {
-  //   const userEntity = this.userRepository.create(dadosUsuario);
-  //   return this.userRepository.save(userEntity)
-  // }
-
-  async createUser(dadosUsuario: CriaUsuarioDTO)  {
-    const userEntity = new UserEntity;
-
-    Object.assign(userEntity, dadosUsuario as UserEntity)
-
-    return this.userRepository.save(userEntity)
   }
 
   async updateUser(id: string, userEntity: UpdateUserDTO) {

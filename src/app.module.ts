@@ -5,17 +5,17 @@ import { ConfigModule } from '@nestjs/config';
 import * as crypto from 'crypto';
 import { APP_FILTER } from '@nestjs/core';
 import { FilterExceptionGlobal } from './resources/filter/filter-exception-global';
-import { UsuarioModule } from './modulos/usuario/usuario.module';
-import { PedidoModule } from './modulos/pedido/pedido.module';
-import { ProdutoModule } from './modulos/produtos/produto.module';
+import { UserModule } from './modulos/usuario/usuario.module';
+import { OrderModule } from './modulos/pedido/pedido.module';
+import { ProductModule} from './modulos/produtos/produto.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 
 (global as any).crypto = crypto;
 @Module({
   imports: [
-    UsuarioModule,
-    ProdutoModule,
+    UserModule,
+    ProductModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -25,7 +25,7 @@ import { redisStore } from 'cache-manager-redis-yet';
         autoLoadEntities: true,
       }),
     }),
-    PedidoModule,
+    OrderModule,
     CacheModule.registerAsync({
       useFactory: async () => ({
         store: await redisStore({ ttl: 10 * 1000 }),

@@ -15,7 +15,7 @@ import { ProductService } from './produto.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('produtos')
-export class ProdutoController {
+export class ProductController {
   constructor(private readonly produtoService: ProductService) {}
 
   @Post()
@@ -49,7 +49,7 @@ export class ProdutoController {
   }
 
   @Get('/:id')
-  @UseInterceptors(CacheInterceptor) /// Utlizando cache do Nest
+  @UseInterceptors(CacheInterceptor) /// Utlizando cache e redis do Nest
   async listById(@Param('id') id: string) {
     const productSave = await this.produtoService.listById(id);
     console.log("Produto sendo buscado no BD")

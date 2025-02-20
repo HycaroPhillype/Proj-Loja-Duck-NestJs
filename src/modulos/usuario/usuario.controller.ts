@@ -4,7 +4,7 @@ import { ListUserDTO } from './dto/Listausuario.dto';
 import { UpdateUserDTO } from './dto/UpdateUsers.dto';
 import { UserService } from './usuario.service';
 @Controller('/usuarios')
-export class UsuarioController {
+export class UserController {
   constructor(
     private userService: UserService
   ) {}

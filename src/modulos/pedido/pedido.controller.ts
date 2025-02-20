@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body, Query, Patch, Param } from '@nestjs/common';
-import { PedidoService } from './pedido.service';
+import { OrderService } from './pedido.service';
 import { CreateOrderDto } from './dto/CriaPedido.dto';
 import { UpdateOrderDto } from './dto/UpdateOrder.dto';
 
 @Controller('pedido')
-export class PedidoController {
-  constructor(private readonly orderService: PedidoService) {}
+export class OrderController {
+  constructor(private readonly orderService: OrderService) {}
 
   @Post()
   async createOrder(

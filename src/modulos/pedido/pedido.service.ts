@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PedidoEntity } from './pedido.entity';
+import { OrderEntity, } from './pedido.entity';
 import { In, Repository } from 'typeorm';
 import { UserEntity } from '../usuario/usuario.entity';
 import { StatusPedido } from './enum/status.pedido.enum';
@@ -13,10 +13,10 @@ import { ItemOrderEntity } from './intempedido.entity';
 import { ProductEntity } from '../produtos/produto.entity';
 import { UpdateOrderDto } from './dto/UpdateOrder.dto';
 @Injectable()
-export class PedidoService {
+export class OrderService {
   constructor(
-    @InjectRepository(PedidoEntity)
-    private readonly pedidoRepository: Repository<PedidoEntity>,
+    @InjectRepository(OrderEntity)
+    private readonly pedidoRepository: Repository<OrderEntity>,
 
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
@@ -71,7 +71,7 @@ export class PedidoService {
     const productsRelated = await this.orderRepository.findBy({
       id: In(productsIds),
     });
-    const orderEntity = new PedidoEntity();
+    const orderEntity = new OrderEntity();
 
     orderEntity.status = StatusPedido.EM_PROCESSAMENTO;
     orderEntity.user = user;
@@ -124,7 +124,7 @@ export class PedidoService {
       throw new NotFoundException('O Pedido não foi encontrado');
     }
 
-    Object.assign(order, dto as PedidoEntity);
+    Object.assign(order, dto as OrderEntity);
 
     return this.pedidoRepository.save(order);
   }

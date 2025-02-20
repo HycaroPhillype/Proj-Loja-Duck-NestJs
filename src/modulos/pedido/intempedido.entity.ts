@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne
 } from 'typeorm';
-import { PedidoEntity } from './pedido.entity';
+import { OrderEntity } from './pedido.entity';
 import { ProductEntity } from '../produtos/produto.entity';
 
 @Entity({ name: 'intens_pedidos' })
@@ -21,11 +21,11 @@ export class ItemOrderEntity {
   @Column({ name: "preco_venda", nullable: false })
   precoVenda: number;
 
-  @ManyToOne(() => PedidoEntity, (order) => order.itemsOrder, {
+  @ManyToOne(() => OrderEntity, (order) => order.itemsOrder, {
     onDelete: 'CASCADE',
     onUpdate:'CASCADE',
   })
-  order: PedidoEntity
+  order: OrderEntity
 
   @ManyToOne(() => ProductEntity, (product) => product.itemsOrder, {
     cascade: ['update']

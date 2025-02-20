@@ -13,7 +13,7 @@ import { StatusPedido } from './enum/status.pedido.enum';
 import { ItemOrderEntity } from './intempedido.entity';
 
 @Entity({ name: 'pedidos' })
-export class PedidoEntity {
+export class OrderEntity {
   splice(index: number, arg1: number) {
     throw new Error('Method not implemented.');
   }

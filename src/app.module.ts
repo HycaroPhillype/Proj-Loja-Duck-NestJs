@@ -10,6 +10,7 @@ import { OrderModule } from './modulos/pedido/pedido.module';
 import { ProductModule} from './modulos/produtos/produto.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
+import { AutenticacaoModule } from './modulos/autenticacao/autenticacao.module';
 
 (global as any).crypto = crypto;
 @Module({
@@ -31,7 +32,8 @@ import { redisStore } from 'cache-manager-redis-yet';
         store: await redisStore({ ttl: 10 * 1000 }),
       }),
       isGlobal: true,
-    }), // esse "ttl" se caso eu fiz um Get, antes de dez segundo vou pegar as mesmas informações, so que do cach, da memoria. depois dos 10 segundo, vai ser novamente um get do BD.
+    }),
+    AutenticacaoModule, // esse "ttl" se caso eu fiz um Get, antes de dez segundo vou pegar as mesmas informações, so que do cach, da memoria. depois dos 10 segundo, vai ser novamente um get do BD.
   ],
   providers: [
     {

@@ -21,9 +21,6 @@ export class UserController {
       senha: passwordHasheada
     })
 
-    console.log(userCreate);
-
-
     return {
       user: new ListUserDTO(userCreate.id, userCreate.nome),
       message: 'Usuário criado com sucesso'}

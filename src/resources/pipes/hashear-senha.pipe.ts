@@ -1,11 +1,14 @@
 import { Injectable, PipeTransform } from '@nestjs/common';
-
-
+import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class HashearPasswordPipe implements PipeTransform {
-  transform(password: string) {
-    return password + 'kde25';
+  constructor(private configService: ConfigService) {}
+
+  async transform(password: string) {
+    const salt = this.configService.get<string>('SALT_SENHA');
+
+    const passwordHasheada = await bcrypt.hash(password, salt!);
+    return passwordHasheada;
   }
-
 }
-

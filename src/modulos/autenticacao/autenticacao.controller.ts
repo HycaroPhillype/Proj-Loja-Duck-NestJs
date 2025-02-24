@@ -4,10 +4,10 @@ import { AuthenticDTO } from './dto/autentica.dto';
 
 @Controller('autenticacao')
 export class AuthenticationController {
-  constructor(private readonly autenticacaoService: AuthenticationService) {}
+  constructor(private readonly authenticationService: AuthenticationService) {}
 
   @Post('login')
   login(@Body() { email, senha }: AuthenticDTO) {
-    return this.autenticacaoService.login(email, senha);
+    return this.authenticationService.login(email, senha);
   }
 }

@@ -8,5 +8,6 @@ import { UserEntity } from './usuario.entity';
   imports: [TypeOrmModule.forFeature([UserEntity])],
   controllers: [UserController],
   providers: [UserService, EmailUnicoValidator],
+  exports: [UserService]
 })
 export class UserModule {}

@@ -58,15 +58,20 @@ export class OrderService {
   }
 
   async registerOrder(userId: string, dataOrder: CreateOrderDto) {
+
     const user = await this.userRepository.findOneBy({ id: userId });
 
     if (!user) {
       throw new NotFoundException('Usuario não encontrado');
     }
+    console.log('dataOrder recebido', dataOrder);
+    console.log('itemsOrder:', dataOrder?.itemsOrder);
 
-    const productsIds = dataOrder.itemsOrder.map(
-      (itemOrder) => itemOrder.productId,
+    const productsIds = dataOrder?.itemsOrder?.map(
+      (itemOrder) => itemOrder?.productId,
     );
+    console.log( 'ids encontrados ', productsIds);
+
 
     const productsRelated = await this.orderRepository.findBy({
       id: In(productsIds),

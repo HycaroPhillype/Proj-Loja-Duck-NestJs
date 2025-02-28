@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListUserDTO } from './dto/Listausuario.dto';
 import { UserEntity } from './usuario.entity';
-import { Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { UpdateUserDTO } from './dto/UpdateUsers.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario-dto';
 
@@ -19,7 +19,7 @@ export class UserService {
     const userEntity = new UserEntity();
 
     Object.assign(userEntity, dadosUsuario as UserEntity)
-    
+
     return this.userRepository.save(userEntity)
   }
 

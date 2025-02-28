@@ -1,20 +1,25 @@
-import { Controller, Get, Post, Body, Query, Patch, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Patch, Param, UseGuards } from '@nestjs/common';
 import { OrderService } from './pedido.service';
 import { CreateOrderDto } from './dto/CriaPedido.dto';
 import { UpdateOrderDto } from './dto/UpdateOrder.dto';
+import { AuthenticationGuard } from '../autenticacao/autenticacao.guard';
 
 @Controller('pedido')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
+  @UseGuards(AuthenticationGuard)
   async createOrder(
     @Query('userId') userId: string,
     @Body() dataOrder: CreateOrderDto,
   ) {
     const orderCreate = await this.orderService.registerOrder(userId, dataOrder);
 
-   return orderCreate
+   return {
+    orderCreate,
+    message: 'Pedido realizado com sucesso!'
+  }
   }
 
   @Get()

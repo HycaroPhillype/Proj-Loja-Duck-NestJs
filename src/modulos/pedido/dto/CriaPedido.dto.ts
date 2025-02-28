@@ -20,7 +20,7 @@ export class CreateOrderDto {
 
   @ValidateNested() // valida objetos aninhados.
 
-  @ArrayMinSize(1) //valida se um array tem o tamanho mínimo especifico
+  // @ArrayMinSize(1) //valida se um array tem o tamanho mínimo especifico
 
   @IsArray() // valida se uma propriedade é um arrya.
 

@@ -3,7 +3,7 @@ import { UserService } from '../usuario/usuario.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
-interface UsuerPayload {
+export interface UserPayload {
   sub: string;
   nameUser: string;
 }
@@ -23,7 +23,7 @@ export class AuthenticationService {
       throw new UnauthorizedException('O email ou a senha está incorreto.');
     }
 
-    const payload: UsuerPayload = {
+    const payload: UserPayload = {
       sub: user.id,
       nameUser: user.nome
     };

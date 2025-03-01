@@ -4,12 +4,12 @@ import { CreateOrderDto } from './dto/CriaPedido.dto';
 import { UpdateOrderDto } from './dto/UpdateOrder.dto';
 import { AuthenticationGuard } from '../autenticacao/autenticacao.guard';
 
+@UseGuards(AuthenticationGuard)
 @Controller('pedido')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
-  @UseGuards(AuthenticationGuard)
   async createOrder(
     @Query('userId') userId: string,
     @Body() dataOrder: CreateOrderDto,

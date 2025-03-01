@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Query, Patch, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Patch, Param, UseGuards, Req } from '@nestjs/common';
 import { OrderService } from './pedido.service';
 import { CreateOrderDto } from './dto/CriaPedido.dto';
 import { UpdateOrderDto } from './dto/UpdateOrder.dto';
-import { AuthenticationGuard } from '../autenticacao/autenticacao.guard';
+import { AuthenticationGuard, RequestWithUser } from '../autenticacao/autenticacao.guard';
 
 @UseGuards(AuthenticationGuard)
 @Controller('pedido')
@@ -11,22 +11,25 @@ export class OrderController {
 
   @Post()
   async createOrder(
-    @Query('userId') userId: string,
+    @Req() req: RequestWithUser,
     @Body() dataOrder: CreateOrderDto,
   ) {
+    const userId = req.user.sub;
     const orderCreate = await this.orderService.registerOrder(userId, dataOrder);
 
-   return {
-    orderCreate,
-    message: 'Pedido realizado com sucesso!'
-  }
+   return orderCreate
+
   }
 
   @Get()
-  async getOrderUser(@Query('userId') userId: string) {
+  async getOrderUser(@Req() req: RequestWithUser) {
+    const userId = req.user.sub
     const order = await this.orderService.getOrderUser(userId);
 
-    return order;
+    return {
+      message: 'Pedido obetidos com sucesso.',
+      order,
+    }
   }
 
   // @Get(':id')
@@ -35,10 +38,17 @@ export class OrderController {
   // }
 
   @Patch(':id')
-  updateOrder(
+  async updateOrder(
+    @Req() req: RequestWithUser,
     @Param('id') orderId: string,
     @Body() dataUpdate: UpdateOrderDto) {
-    return this.orderService.updateOrder(orderId, dataUpdate)
+    const userId = req.user.sub
+    const orderUpdate = await this.orderService.updateOrder(
+      orderId,
+      dataUpdate,
+      userId,
+    )
+    return orderUpdate
   }
 
   // @Delete(':id')

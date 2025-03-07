@@ -8,6 +8,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { OrderEntity } from '../pedido/pedido.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'usuarios' })
 export class UserEntity {
@@ -16,7 +17,7 @@ export class UserEntity {
   }
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
+  
   @Column({ length: 100, nullable: false })
   nome: string;
 
@@ -26,6 +27,7 @@ export class UserEntity {
   @Column({ length: 255, nullable: true })
   endereco: string;
 
+  @Exclude()
   @Column({ length: 255, nullable: false })
   senha: string;
 

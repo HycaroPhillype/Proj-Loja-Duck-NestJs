@@ -1,6 +1,7 @@
 import {
   ArgumentsHost,
   Catch,
+  ConsoleLogger,
   ExceptionFilter,
   HttpException,
   HttpStatus,
@@ -9,10 +10,14 @@ import { HttpAdapterHost } from '@nestjs/core';
 
 @Catch()
 export class FilterExceptionGlobal implements ExceptionFilter {
-  constructor(private adapterHost: HttpAdapterHost) {}  // torando mais flexibel para usar tanto Express quanto Fastify
+  constructor(
+    private adapterHost: HttpAdapterHost,
+    private loggerNative: ConsoleLogger,
+  ) {}  // torando mais flexibel para usar tanto Express quanto Fastify
 
   catch(exception: unknown, host: ArgumentsHost) {
-    console.log(exception);
+    this.loggerNative.error(exception)
+    console.error(exception);
 
     const { httpAdapter } = this.adapterHost
 

@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
+import { ClassSerializerInterceptor, ConsoleLogger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { postgresConfig } from './config/db.config.service';
 import { ConfigModule } from '@nestjs/config';
 import * as crypto from 'crypto';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { FilterExceptionGlobal } from './resources/filter/filter-exception-global';
 import { UserModule } from './modulos/usuario/usuario.module';
 import { OrderModule } from './modulos/pedido/pedido.module';
@@ -40,6 +40,11 @@ import { AutenticacaoModule } from './modulos/autenticacao/autenticacao.module';
       provide: APP_FILTER,
       useClass: FilterExceptionGlobal,
     },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+    ConsoleLogger,
   ],
 })
 export class AppModule {}

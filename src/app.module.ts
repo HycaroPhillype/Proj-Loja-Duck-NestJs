@@ -11,6 +11,7 @@ import { ProductModule} from './modulos/produtos/produto.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { AutenticacaoModule } from './modulos/autenticacao/autenticacao.module';
+import { LoggerGlobalInterceptor } from './resources/interceptores/logger-global.interceptor';
 
 (global as any).crypto = crypto;
 @Module({
@@ -43,6 +44,10 @@ import { AutenticacaoModule } from './modulos/autenticacao/autenticacao.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerGlobalInterceptor
     },
     ConsoleLogger,
   ],

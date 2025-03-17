@@ -13,7 +13,7 @@ export class FilterExceptionGlobal implements ExceptionFilter {
   constructor(
     private adapterHost: HttpAdapterHost,
     private loggerNative: ConsoleLogger,
-  ) {}  // torando mais flexibel para usar tanto Express quanto Fastify
+  ) {}  // tornando mais flexibel para usar tanto Express quanto Fastify
 
   catch(exception: unknown, host: ArgumentsHost) {
     this.loggerNative.error(exception)

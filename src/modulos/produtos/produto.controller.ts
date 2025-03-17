@@ -13,10 +13,16 @@ import { UpdateProductDTO } from './dto/AtualizaProduto.dto';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProductService } from './produto.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CustomLogger } from '../../resources/interceptores/custom-logger.service';
 
 @Controller('produtos')
 export class ProductController {
-  constructor(private readonly produtoService: ProductService) {}
+  constructor(
+    private readonly produtoService: ProductService,
+    private readonly logger: CustomLogger,
+  ) {
+    this.logger.setContext('ProdutoController')
+  }
 
   @Post()
   async createNew(@Body() dadosProduto: CriaProdutoDTO) {

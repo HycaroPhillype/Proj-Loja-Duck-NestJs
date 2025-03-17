@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './produto.entity';
 import { Repository } from 'typeorm';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
+import { CustomLogger } from '../../resources/interceptores/custom-logger.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>,
+    private readonly logger: CustomLogger,
   ) {}
 
   async createProduct(dadosProduto: CriaProdutoDTO) {
@@ -16,7 +18,15 @@ export class ProductService {
     // const {caracter, images, ...rest} = dadosProduto
 
     Object.assign(produtoEntity, dadosProduto as ProductEntity)
-    return this.productRepository.save(produtoEntity);
+    const productSave = await this.productRepository.save(produtoEntity);
+    const productRegistered = await this.productRepository.save(produtoEntity);
+
+
+
+    this.logger.logInFile(productRegistered)
+    this.logger.logColor(productSave.nome, productSave.quantidadeDisponivel, productSave.value)
+
+    return productSave;
   }
 
   async listAll() {
@@ -42,7 +52,9 @@ export class ProductService {
       ...dadosProduto,
     };
 
-    return this.productRepository.save(newProduct);
+    const productUpdate = await this.productRepository.save(newProduct);
+
+    this.logger.logColor(productUpdate.nome, productUpdate.quantidadeDisponivel, productUpdate.value)
   }
 
   async deleteProduct(id: string) {
@@ -51,5 +63,7 @@ export class ProductService {
     if (!result.affected) {
       throw new NotFoundException('O Produto não foi encontrado!');
     }
+
+    this.logger.log(`Produto com ID ${id} foi deletado.`)
   }
 }
